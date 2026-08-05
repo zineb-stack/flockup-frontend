@@ -2,13 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTask, getCurrentUserId } from "../services/api";
 
-function TaskNew() {
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    due_date: "",
-    priority: "normal",
-  });
+cd "C:\Users\ennak\OneDrive\Desktop\flockup\flockup-frontend"
+notepad src\pages\TaskNew.jsx
+
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
