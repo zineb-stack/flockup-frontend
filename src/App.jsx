@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar";
@@ -33,6 +33,11 @@ function Layout() {
   const location = useLocation();
   const hideNav = ["/login", "/signup"].includes(location.pathname);
   const isDesktop = useIsDesktop();
+  const isLoggedIn = !!localStorage.getItem("userId");
+
+  if (!isLoggedIn && !hideNav) {
+    return <Navigate to="/signup" replace />;
+  }
 
   return (
     <div className={hideNav ? "" : "app-shell"}>
