@@ -91,7 +91,7 @@ function PostCard({ post, onUpdated }) {
         )}
       </div>
 
-      <img src={`http://127.0.0.1:8000${post.photo_url}`} alt="preuve" className="post-image" />
+      <img src={`https://flockup-backend.onrender.com${post.photo_url}`} alt="preuve" className="post-image" />
 
       {post.caption && <p className="post-caption">{post.caption}</p>}
 
