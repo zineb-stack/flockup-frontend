@@ -2,9 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTask, getCurrentUserId } from "../services/api";
 
-cd "C:\Users\ennak\OneDrive\Desktop\flockup\flockup-frontend"
-notepad src\pages\TaskNew.jsx
+function toDateStr(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
 
+function TaskNew() {
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    due_date: toDateStr(new Date()),
+    priority: "normal",
+  });
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
