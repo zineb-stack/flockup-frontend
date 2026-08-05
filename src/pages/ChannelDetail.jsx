@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   getChannels, searchUsers, inviteUser, getPendingMembers,
   approveMember, rejectMember, getHabits, uploadPost, getChannelPostsFull,
-  getChannelRanking, getCurrentUserId,
+  getChannelRanking, getUser, getCurrentUserId,
 } from "../services/api";
 import { IconMessages, IconUser } from "../components/Icons";
 import PostCard from "../components/PostCard";
@@ -16,6 +16,7 @@ function ChannelDetail() {
   const cameraInputRef = useRef(null);
 
   const [channel, setChannel] = useState(null);
+  const [me, setMe] = useState(null);
   const [pending, setPending] = useState([]);
   const [posts, setPosts] = useState([]);
   const [ranking, setRanking] = useState([]);
@@ -45,6 +46,9 @@ function ChannelDetail() {
 
       const rankingRes = await getChannelRanking(channelId);
       setRanking(rankingRes.data.filter((r) => r.verified_count > 0).slice(0, 5));
+
+      const meRes = await getUser(userId);
+      setMe(meRes.data);
 
       const habitsRes = await getHabits(userId);
       setMyHabits(habitsRes.data.filter((h) => h.title !== "string"));
@@ -156,7 +160,7 @@ function ChannelDetail() {
             {copied ? "✓" : "🔗"}
           </div>
           <div className="hero-add-circle" onClick={() => setShowAddMenu(!showAddMenu)}>+</div>
-          <div className="hero-avatar-circle">{ranking[0]?.avatar_url || "🙂"}</div>
+          <div className="hero-avatar-circle">{me?.avatar_url || "🙂"}</div>
         </div>
 
         {showAddMenu && (
