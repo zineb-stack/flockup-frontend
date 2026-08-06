@@ -84,7 +84,7 @@ function Settings() {
       return;
     }
     try {
-      await sendFeedback({ rating, message: feedbackMsg, user_email: user?.email });
+      await sendFeedback({ rating, message: feedbackMsg, user_email: user?.email, user_name: user?.name });
       setFeedbackSent(true);
       setRating(0);
       setFeedbackMsg("");
