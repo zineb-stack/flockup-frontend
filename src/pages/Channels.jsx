@@ -65,13 +65,13 @@ function Channels() {
   async function loadAll() {
     setLoading(true);
     try {
-      const [mineRes, allRes] = await Promise.all([
+      const [mineRes, recommendedRes] = await Promise.all([
         getMyChannels(userId),
-        getChannels(),
+        getRecommendedChannels(userId),
       ]);
       setMyChannels(mineRes.data);
-      const myIds = mineRes.data.map((c) => c.id);
-      setAllChannels(allRes.data.filter((c) => !myIds.includes(c.id)));
+      setAllChannels(recommendedRes.data);
+      
     } catch (err) {
       console.error(err);
     } finally {

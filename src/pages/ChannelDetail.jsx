@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   getChannels, searchUsers, inviteUser, getPendingMembers,
   approveMember, rejectMember, getHabits, uploadPost, getChannelPostsFull,
-  getChannelRanking, getUser, getCurrentUserId,
+  getChannelRanking, getUser, getChannelMembers, deleteChannel, getCurrentUserId,
 } from "../services/api";
-import { IconMessages, IconUser } from "../components/Icons";
+import { IconMessages, IconUser, IconTrash } from "../components/Icons";
 import PostCard from "../components/PostCard";
 
 function ChannelDetail() {
@@ -17,6 +17,7 @@ function ChannelDetail() {
 
   const [channel, setChannel] = useState(null);
   const [me, setMe] = useState(null);
+  const [members, setMembers] = useState([]);
   const [pending, setPending] = useState([]);
   const [posts, setPosts] = useState([]);
   const [ranking, setRanking] = useState([]);
@@ -49,6 +50,9 @@ function ChannelDetail() {
 
       const meRes = await getUser(userId);
       setMe(meRes.data);
+
+      const membersRes = await getChannelMembers(channelId);
+      setMembers(membersRes.data);
 
       const habitsRes = await getHabits(userId);
       setMyHabits(habitsRes.data.filter((h) => h.title !== "string"));
@@ -115,6 +119,16 @@ function ChannelDetail() {
     }
   }
 
+  async function handleDeleteChannel() {
+    if (!confirm("Supprimer définitivement ce channel ?")) return;
+    try {
+      await deleteChannel(channelId, userId);
+      navigate("/channels");
+    } catch (err) {
+      alert(err.response?.data?.detail || "Erreur");
+    }
+  }
+
   async function handleFileSelected(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -160,7 +174,14 @@ function ChannelDetail() {
             {copied ? "✓" : "🔗"}
           </div>
           <div className="hero-add-circle" onClick={() => setShowAddMenu(!showAddMenu)}>+</div>
-          <div className="hero-avatar-circle">{me?.avatar_url || "🙂"}</div>
+          {members.slice(0, 5).map((m) => (
+            <div key={m.user_id} className="hero-avatar-circle" title={m.name}>
+              {m.avatar_url || "🙂"}
+            </div>
+          ))}
+          {members.length > 5 && (
+            <div className="hero-avatar-circle hero-avatar-more">+{members.length - 5}</div>
+          )}
         </div>
 
         {showAddMenu && (
@@ -279,6 +300,15 @@ function ChannelDetail() {
             </div>
           ))}
         </>
+      )}
+
+      {isOwner && (
+        <div className="danger-zone">
+          <p className="danger-zone-title">Zone dangereuse</p>
+          <button className="btn-delete-account" onClick={handleDeleteChannel}>
+            Supprimer ce channel
+          </button>
+        </div>
       )}
     </div>
   );

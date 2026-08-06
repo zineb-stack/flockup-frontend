@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getTasksByDate, toggleTask, getCurrentUserId } from "../services/api";
+import { getTasksByDate, toggleTask, deleteTask, getCurrentUserId } from "../services/api";
 import { IconCalendarStats, IconCheckSquare } from "../components/Icons";
 import DatePickerPopup from "../components/DatePickerPopup";
 
@@ -48,6 +48,17 @@ function Tasks() {
   async function handleToggle(taskId) {
     try {
       await toggleTask(taskId);
+      loadTasks();
+    } catch (err) {
+      alert("Erreur");
+    }
+  }
+
+  async function handleDelete(e, taskId) {
+    e.stopPropagation();
+    if (!confirm("Supprimer cette tâche ?")) return;
+    try {
+      await deleteTask(taskId);
       loadTasks();
     } catch (err) {
       alert("Erreur");
@@ -132,6 +143,7 @@ function Tasks() {
               {task.priority === "low" && "Priorité basse"}
             </p>
           </div>
+          <span className="task-delete-btn" onClick={(e) => handleDelete(e, task.id)}>🗑</span>
         </div>
       ))}
 
