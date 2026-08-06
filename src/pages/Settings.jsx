@@ -184,7 +184,7 @@ function Settings() {
       <div className="page">
         <div className="settings-subheader">
           <span className="back-link" onClick={() => setView("main")}>‹ Retour</span>
-          <h1>Contactez-nous</h1>
+          <h1>Feedback</h1>
         </div>
         <p style={{ fontSize: 14, color: "var(--text-sub)", marginBottom: 16 }}>
           Une question, un bug, une suggestion ? Écris-nous :
@@ -264,7 +264,7 @@ function Settings() {
           <span className="chevron-sm">›</span>
         </div>
         <div className="settings-row" onClick={() => setView("contact")}>
-          <span>Contactez-nous</span>
+          <span>Feedback</span>
           <span className="chevron-sm">›</span>
         </div>
         <div className="settings-row" onClick={handleShare}>
