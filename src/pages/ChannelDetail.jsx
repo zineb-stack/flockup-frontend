@@ -95,7 +95,7 @@ function ChannelDetail() {
   }
 
   function handleCopyLink() {
-    const link = `${window.location.origin}/channels/${channelId}`;
+    const link = `https://flockup.vercel.app/channels/${channelId}`;
     navigator.clipboard.writeText(link);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);

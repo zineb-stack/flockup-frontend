@@ -69,7 +69,7 @@ function Settings() {
   }
 
   function handleShare() {
-    const shareUrl = window.location.origin;
+    const shareUrl = "https://flockup.vercel.app";
     if (navigator.share) {
       navigator.share({ title: "FlockUp", text: "Rejoins-moi sur FlockUp !", url: shareUrl });
     } else {
