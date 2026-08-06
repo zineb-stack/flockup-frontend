@@ -1533,3 +1533,59 @@ body { margin: 0; background: var(--bg-page); font-family: -apple-system, BlinkM
   font-weight: 700;
   color: white;
 }
+
+.feedback-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+
+.feedback-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.feedback-sub {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin: 4px 0 16px;
+}
+
+.feedback-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.feedback-star {
+  font-size: 36px;
+  color: var(--border-color);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.feedback-star.filled {
+  color: var(--warning);
+}
+[data-theme="dark"] .feedback-star.filled {
+  color: var(--accent);
+}
+
+.feedback-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  font-family: inherit;
+  resize: none;
+  background: var(--bg-page);
+  color: var(--text-main);
+  margin-bottom: 14px;
+}

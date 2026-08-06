@@ -68,3 +68,5 @@ export const getPendingCount = (userId) => api.get(`/channels/pending-count/${us
 export const deleteTask = (taskId) => api.delete(`/tasks/${taskId}`);
 export const deleteChannel = (channelId, userId) => api.delete(`/channels/${channelId}/${userId}`);
 export const getChannelMembers = (channelId) => api.get(`/channels/${channelId}/members`);
+
+export const sendFeedback = (data) => api.post(`/users/feedback`, data);

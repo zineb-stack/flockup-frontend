@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { updateUser, deleteUser, getUser, getCurrentUserId } from "../services/api";
+import { updateUser, deleteUser, getUser, sendFeedback, getCurrentUserId } from "../services/api";
 
 const THEMES = [
   { id: "pastel", label: "Pastel", color: "#E8B4A0" },
@@ -10,12 +10,15 @@ const THEMES = [
 function Settings() {
   const [searchParams] = useSearchParams();
   const [view, setView] = useState(searchParams.get("view") || "main");
+  const [rating, setRating] = useState(0);
+  const [feedbackMsg, setFeedbackMsg] = useState("");
+  const [feedbackSent, setFeedbackSent] = useState(false);
 
   useEffect(() => {
     const v = searchParams.get("view");
     if (v) setView(v);
   }, [searchParams]);
-  
+
   const [accountForm, setAccountForm] = useState({ name: "", password: "", confirmPassword: "" });
   const [saved, setSaved] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "pastel");
@@ -72,6 +75,22 @@ function Settings() {
     } else {
       navigator.clipboard.writeText(shareUrl);
       alert("Lien copié dans le presse-papier !");
+    }
+  }
+
+  async function handleSendFeedback() {
+    if (rating === 0) {
+      alert("Choisis une note avant d'envoyer.");
+      return;
+    }
+    try {
+      await sendFeedback({ rating, message: feedbackMsg, user_email: user?.email });
+      setFeedbackSent(true);
+      setRating(0);
+      setFeedbackMsg("");
+      setTimeout(() => setFeedbackSent(false), 3000);
+    } catch (err) {
+      alert("Erreur lors de l'envoi du feedback");
     }
   }
 
@@ -170,8 +189,39 @@ function Settings() {
         <p style={{ fontSize: 14, color: "var(--text-sub)", marginBottom: 16 }}>
           Une question, un bug, une suggestion ? Écris-nous :
         </p>
-        <div className="card">
+        <div className="card" style={{ marginBottom: 24 }}>
           <p style={{ margin: 0, fontSize: 14 }}>support@flockup.app</p>
+        </div>
+
+        <div className="feedback-card">
+          <p className="feedback-title">Tu apprécies FlockUp ?</p>
+          <p className="feedback-sub">Dis-nous ce que tu en penses</p>
+
+          <div className="feedback-stars">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <span
+                key={n}
+                className={`feedback-star ${n <= rating ? "filled" : ""}`}
+                onClick={() => setRating(n)}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+
+          <textarea
+            className="feedback-textarea"
+            placeholder="Ton avis (optionnel)..."
+            value={feedbackMsg}
+            onChange={(e) => setFeedbackMsg(e.target.value)}
+            rows={3}
+          />
+
+          <button className="btn-confirm" style={{ width: "100%" }} onClick={handleSendFeedback}>
+            Envoyer mon avis
+          </button>
+
+          {feedbackSent && <p className="save-confirm">✓ Merci pour ton retour !</p>}
         </div>
       </div>
     );
