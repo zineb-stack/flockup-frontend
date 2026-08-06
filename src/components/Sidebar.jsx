@@ -68,7 +68,7 @@ function Sidebar() {
 
       <div className="sidebar-item" onClick={() => navigate("/settings?view=contact")}>
         <IconMail size={18} />
-        {!collapsed && <span className="sidebar-label">Contactez-nous</span>}
+        {!collapsed && <span className="sidebar-label">Feedback</span>}
       </div>
 
       <NavLink to="/settings" className={({ isActive }) => `sidebar-item sidebar-bottom ${isActive ? "active" : ""}`}>

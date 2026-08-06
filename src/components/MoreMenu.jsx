@@ -5,7 +5,7 @@ import { IconCrown, IconClock, IconMail, IconSettings } from "./Icons";
 const ITEMS = [
   { to: "/pro", Icon: IconCrown, label: "Passer à Pro" },
   { to: "/pomodoro", Icon: IconClock, label: "Pomodoro" },
-  { to: "/settings?view=contact", Icon: IconMail, label: "Contactez-nous" },
+  { to: "/settings?view=contact", Icon: IconMail, label: "Feedback" },
   { to: "/settings", Icon: IconSettings, label: "Paramètres" },
 ];
 
