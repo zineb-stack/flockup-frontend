@@ -62,3 +62,5 @@ export const getChannelRanking = (channelId) => api.get(`/channels/${channelId}/
 export const getRecommendedChannels = (userId) => api.get(`/channels/recommended/${userId}`);
 
 export const deleteUser = (userId) => api.delete(`/users/${userId}`);
+
+export const getPendingCount = (userId) => api.get(`/channels/pending-count/${userId}`);

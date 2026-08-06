@@ -1,14 +1,24 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   IconHome, IconNotebook, IconMessages, IconUser,
   IconCrown, IconClock, IconPalette, IconMail, IconSettings,
   IconMenu, IconFlockUpLogo,
 } from "./Icons";
+import { getPendingCount, getCurrentUserId } from "../services/api";
 
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [pendingCount, setPendingCount] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getPendingCount(getCurrentUserId())
+      .then((res) => setPendingCount(res.data.count))
+      .catch(() => {});
+  }, []);
 
   const mainItems = [
     { to: "/", Icon: IconHome, label: "Accueil" },
@@ -36,7 +46,12 @@ function Sidebar() {
           end={item.to === "/"}
           className={({ isActive }) => `sidebar-item ${isActive ? "active" : ""}`}
         >
-          <item.Icon size={18} />
+          <span className="sidebar-icon-wrap">
+            <item.Icon size={18} />
+            {item.to === "/channels" && pendingCount > 0 && (
+              <span className="sidebar-badge">{pendingCount}</span>
+            )}
+          </span>
           {!collapsed && <span className="sidebar-label">{item.label}</span>}
         </NavLink>
       ))}

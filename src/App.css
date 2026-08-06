@@ -1497,3 +1497,26 @@ body { margin: 0; background: var(--bg-page); font-family: -apple-system, BlinkM
 .more-menu-item:last-child {
   border-bottom: none;
 }
+
+.sidebar-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--danger);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
